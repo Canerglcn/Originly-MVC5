@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Originly_MVC5.ViewModels;
 
 namespace Originly_MVC5.Controllers
 {
@@ -40,6 +41,56 @@ namespace Originly_MVC5.Controllers
             return View(game);
         }
 
+        public ActionResult New()
+        {
+            var genres = _context.Genres.ToList();
+
+            var viewModel = new GameFormViewModel
+            {
+                Genres = genres
+            };
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public ActionResult Create(Game game)
+        {
+            game.DateAdded = DateTime.Now;
+            _context.Games.Add(game);
+
+            _context.SaveChanges();
+
+            return RedirectToAction("Index", "Games");
+        }
+
+        public ActionResult Edit(int id)
+        {
+            var game = _context.Games.SingleOrDefault(g => g.Id == id);
+
+            if (game == null)
+                return HttpNotFound();
+
+            var viewModel = new GameFormViewModel
+            {
+                Game=game,
+                Genres = _context.Genres.ToList()
+
+            };
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public ActionResult Save(Game game)
+        {
+            var gameInDb = _context.Games.Single(g => g.Id == game.Id);
+            gameInDb.Name = game.Name;
+            gameInDb.ReleaseDate = game.ReleaseDate;
+            gameInDb.GenreId = game.GenreId;
+
+            _context.SaveChanges();
+            return RedirectToAction("Index", "Games");
+        }
 
         
     }
