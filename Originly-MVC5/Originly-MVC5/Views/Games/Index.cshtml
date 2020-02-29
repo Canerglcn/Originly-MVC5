@@ -1,0 +1,23 @@
+﻿@model IEnumerable<Originly_MVC5.Models.Game>
+@{
+    ViewBag.Title = "Games";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Games</h2>
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Game</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var game in Model)
+        {
+            <tr>
+                <td>@Html.ActionLink(game.Name, "Details", "Games", new { id = game.Id }, null)  </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
