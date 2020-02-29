@@ -22,6 +22,11 @@ namespace Originly_MVC5.Controllers
 
         }
 
+        public ActionResult New()
+        {
+            return View();
+        }
+
         // GET: Customers
         public ViewResult Index()
         {
