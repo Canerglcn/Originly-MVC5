@@ -17,6 +17,7 @@ namespace Originly_MVC5.Models
         public bool IsSubscribedToNewsletter { get; set; }
 
         [Display(Name="Date of Birth")]
+        [Min18YearsIfAMember]
         public DateTime? Birthdate { get; set; }
 
         

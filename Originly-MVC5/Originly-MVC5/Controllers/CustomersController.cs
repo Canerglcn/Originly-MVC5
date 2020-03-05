@@ -26,6 +26,7 @@ namespace Originly_MVC5.Controllers
 
             var viewModel = new CustomerFormViewModel
             {
+                Customer = new Customer(),
                 MembershipTypes = membershipTypes
             };
             return View("CustomerForm", viewModel);

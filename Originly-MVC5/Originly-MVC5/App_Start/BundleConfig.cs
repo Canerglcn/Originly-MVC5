@@ -24,7 +24,7 @@ namespace Originly_MVC5
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap-slate.css",
-                      "~/Content/site.css"));
+                      "~/Content/Site.css"));
         }
     }
 }
