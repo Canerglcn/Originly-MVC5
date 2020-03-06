@@ -54,6 +54,7 @@ namespace Originly_MVC5.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Create(Game game)
         {
             game.DateAdded = DateTime.Now;
@@ -81,6 +82,7 @@ namespace Originly_MVC5.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Save(Game game)
         {
             var gameInDb = _context.Games.Single(g => g.Id == game.Id);
