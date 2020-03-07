@@ -12,8 +12,16 @@ namespace Originly_MVC5.App_Start
     {
         public MappingProfile()
         {
-            Mapper.CreateMap<Customer,CustomerDto>();
-            Mapper.CreateMap<CustomerDto, Customer>();
+            //Domain to Dto
+            Mapper.CreateMap<Customer, CustomerDto>();
+            Mapper.CreateMap<Game, GameDto>();
+
+
+            //Dto to Domain
+            Mapper.CreateMap<CustomerDto, Customer>()
+                .ForMember(c => c.Id, opt => opt.Ignore());
+             Mapper.CreateMap<GameDto, Game>()
+                .ForMember(c => c.Id, opt => opt.Ignore());
         }
     }
 }
