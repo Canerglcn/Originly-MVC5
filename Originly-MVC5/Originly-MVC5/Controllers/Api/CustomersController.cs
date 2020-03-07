@@ -1,4 +1,6 @@
-﻿using Originly_MVC5.Models;
+﻿using AutoMapper;
+using Originly_MVC5.Dtos;
+using Originly_MVC5.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,40 +21,42 @@ namespace Originly_MVC5.Controllers.Api
 
 
         // GET /api/customers
-        public IEnumerable<Customer> GetCustomers()
+        public IEnumerable<CustomerDto> GetCustomers()
         {
-            var customers = _context.Customers.ToList();
-            return customers;
+            return _context.Customers.ToList().Select(Mapper.Map<Customer,CustomerDto>);        
         }
 
         // GET /api/customer/1
-        public Customer GetCustomers(int id)
+        public IHttpActionResult GetCustomer(int id)
         {
             var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
 
             if (customer == null)
-                throw new HttpResponseException(HttpStatusCode.NotFound); 
+                return NotFound();
 
-            return customer;
+            return Ok(Mapper.Map<Customer,CustomerDto>(customer));
         }
 
+        //Burada Kaldık
         // POST /api/customers
         [HttpPost]
-        public Customer CreateCustomer(Customer customer)
+        public IHttpActionResult CreateCustomer(CustomerDto customerDto)
         {
             if (!ModelState.IsValid)
-                throw new HttpResponseException(HttpStatusCode.BadRequest);
+                return BadRequest();
 
-            _context.Customers.Add(customer);
+            var customer = Mapper.Map<CustomerDto, Customer>(customerDto);
+           _context.Customers.Add(customer);
             _context.SaveChanges();
 
-            return customer;
+            customerDto.Id = customer.Id;
+            return Created(new Uri(Request.RequestUri+"/"+customer.Id), customerDto);
 
         }
 
         //Put api/customers/1
         [HttpPut]
-        public void UpdateCustomer(int id,Customer customer)
+        public void UpdateCustomer(int id,CustomerDto customerDto)
         {
             if (!ModelState.IsValid)
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
@@ -62,12 +66,8 @@ namespace Originly_MVC5.Controllers.Api
             if (customerInDb == null)
                 throw new HttpResponseException(HttpStatusCode.NotFound);
 
-            
-
-            customerInDb.Name = customer.Name;
-            customerInDb.Birthdate = customer.Birthdate;
-            customerInDb.MembershipTypeId = customer.MembershipTypeId;
-            customerInDb.IsSubscribedToNewsletter = customer.IsSubscribedToNewsletter;
+            //customerInDb existing object,that's why we can use it => second parameter.
+            Mapper.Map(customerDto, customerInDb);
 
             _context.SaveChanges();
         }
