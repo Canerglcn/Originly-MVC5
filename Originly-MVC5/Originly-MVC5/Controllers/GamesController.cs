@@ -29,8 +29,9 @@ namespace Originly_MVC5.Controllers
             //var games = _context.Games.Include(g=>g.Genre).ToList();
 
             //return View(games);
-
-            return View();
+            if(User.IsInRole(RoleName.CanManageGames))
+            return View("List");
+            return View("ReadOnlyList");
 
         }
 
@@ -43,6 +44,7 @@ namespace Originly_MVC5.Controllers
             return View(game);
         }
 
+        [Authorize(Roles = RoleName.CanManageGames)]
         public ActionResult New()
         {
             var genres = _context.Genres.ToList();
@@ -57,6 +59,7 @@ namespace Originly_MVC5.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = RoleName.CanManageGames)]
         public ActionResult Create(Game game)
         {
             game.DateAdded = DateTime.Now;
@@ -67,6 +70,7 @@ namespace Originly_MVC5.Controllers
             return RedirectToAction("Index", "Games");
         }
 
+        [Authorize(Roles = RoleName.CanManageGames)]
         public ActionResult Edit(int id)
         {
             var game = _context.Games.SingleOrDefault(g => g.Id == id);
@@ -83,6 +87,7 @@ namespace Originly_MVC5.Controllers
             return View(viewModel);
         }
 
+        [Authorize(Roles = RoleName.CanManageGames)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Save(Game game)
