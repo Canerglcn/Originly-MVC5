@@ -26,9 +26,11 @@ namespace Originly_MVC5.Controllers
         // GET: Games
         public ViewResult Index()
         {
-            var games = _context.Games.Include(g=>g.Genre).ToList();
+            //var games = _context.Games.Include(g=>g.Genre).ToList();
 
-            return View(games);
+            //return View(games);
+
+            return View();
 
         }
 

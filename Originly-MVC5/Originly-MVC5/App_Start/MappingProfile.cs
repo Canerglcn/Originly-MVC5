@@ -16,6 +16,7 @@ namespace Originly_MVC5.App_Start
             Mapper.CreateMap<Customer, CustomerDto>();
             Mapper.CreateMap<Game, GameDto>();
             Mapper.CreateMap<MembershipType, MembershipTypeDto>();
+            Mapper.CreateMap<Genre, GenreDto>();
 
 
             //Dto to Domain

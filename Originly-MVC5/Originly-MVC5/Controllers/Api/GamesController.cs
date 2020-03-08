@@ -2,6 +2,7 @@
 using Originly_MVC5.Dtos;
 using Originly_MVC5.Models;
 using System;
+using System.Data.Entity;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -22,7 +23,10 @@ namespace Originly_MVC5.Controllers.Api
         // [GET] api/games/
         public IHttpActionResult GetGames()
         {
-            return Ok(_context.Games.ToList().Select(Mapper.Map<Game, GameDto>));
+            return Ok(_context.Games
+                .Include(g=>g.Genre)
+                .ToList()
+                .Select(Mapper.Map<Game, GameDto>));
         }
 
         // [GET] api/games/1

@@ -18,8 +18,7 @@
     </tbody>
 </table>
 
-@section scripts
-{
+@section scripts{
     <script>
         $(document).ready(function () {
             var table=$("#customers").DataTable({
@@ -28,7 +27,7 @@
                     dataSrc: ""
                 },
                 columns: [
-                    {
+                    {   
                         data: "name",
                         render: function (data, type, customer) {
                             return "<a href='/customers/edit/" + customer.id + "'>" + customer.name + "</a>";
